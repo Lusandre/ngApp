@@ -1,0 +1,69 @@
+<form
+  (ngSubmit)="agregarCoop()"
+  [formGroup]="miFormulario"
+  class="form-group container"
+  autocomplete="off"
+>
+  <div
+    *ngIf="validar()"
+    class="alert alert-danger d-flex align-items-center"
+    role="alert"
+  >
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <div>Error: Formulario invalido</div>
+  </div>
+
+  <div
+    *ngIf="mensaje"
+    class="alert alert-danger d-flex align-items-center"
+    role="alert"
+  >
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <div>{{ mensaje }}</div>
+  </div>
+  <div>
+    <label for="coop">Coop</label>
+    <input
+      class="form-control"
+      type="text"
+      id="coop"
+      placeholder="Nombre de la coop"
+      formControlName="coop"
+      maxlength="15"
+    />
+  </div>
+  <div>
+    <label for="menber_nr">Menber nr</label>
+    <input
+      class="form-control"
+      type="number"
+      id="menber_nr"
+      placeholder="menber_nr"
+      formControlName="menber_nr"
+    />
+  </div>
+
+  <button class="btn btn-warning mt-2 w-100" type="submit">Add Coop</button>
+</form>
+
+<button mat-raised-button (click)="openModal()">Abrir modal</button>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>name</th>
+      <th>Menber_nr</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let coop of coops; let i = index">
+      <td>{{ coop.id }}</td>
+      <td>{{ coop.name }}</td>
+      <td>{{ coop.menber_nr }}</td>
+      <td><a [routerLink]="['./', coop.id]">Ver</a></td>
+    </tr>
+  </tbody>
+</table>
+<a [routerLink]="['./', 1]">Ver</a>

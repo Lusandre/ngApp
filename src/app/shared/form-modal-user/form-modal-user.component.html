@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>User</h2>
+<mat-dialog-content>
+  <form [formGroup]="myForm" class="form-group container" autocomplete="off">
+    <div class="form-group">
+      <div
+        *ngIf="validar()"
+        class="alert alert-danger d-flex align-items-center"
+        role="alert"
+      >
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <div>Error: Formulario invalido</div>
+      </div>
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        placeholder="Name"
+        formControlName="name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Username"
+        formControlName="username"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="level">Level:</label>
+      <select class="form-control" id="level" formControlName="level">
+        <option value="0">Normal user</option>
+        <option value="1">Admin</option>
+      </select>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div *ngIf="data.username; else edit">
+    <button mat-button (click)="editUser()" [disabled]="!myForm.valid">
+      Edit User
+    </button>
+  </div>
+  <ng-template #edit>
+    <button mat-button (click)="agregarUser()" [disabled]="!myForm.valid">
+      Add User
+    </button>
+  </ng-template>
+  <button mat-button (click)="cancel()">Cancel</button>
+</mat-dialog-actions>

@@ -1,0 +1,85 @@
+<h1>Name</h1>
+<h1>{{ coop.name }}</h1>
+<h2>Member nr: {{ coop.menber_nr }}</h2>
+<button class="btn btn-primary" (click)="openModal()">editar</button>
+<button class="btn btn-danger">eliminar</button>
+
+<!-- Modal de edición -->
+<div
+  class="modal fade"
+  id="editCoopModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editCoopModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCoopModalLabel">Editar Coop</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Cerrar"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          (ngSubmit)="editCoop()"
+          [formGroup]="updateForm"
+          class="form-group container"
+          autocomplete="off"
+        >
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Name"
+              formControlName="name"
+            />
+          </div>
+          <div>
+            <label for="menber_nr">Menber nr</label>
+            <input
+              class="form-control"
+              type="number"
+              id="menber_nr"
+              placeholder="menber_nr"
+              formControlName="menber_nr"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users; let i = index">
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.name }}</td>
+      <td><a [routerLink]="['./', user.id]">Ver</a></td>
+    </tr>
+  </tbody>
+</table>

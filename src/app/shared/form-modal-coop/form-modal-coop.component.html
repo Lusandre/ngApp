@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Coop</h2>
+<mat-dialog-content>
+  <form [formGroup]="myForm" class="form-group container" autocomplete="off">
+    <div
+      *ngIf="validar()"
+      class="alert alert-danger d-flex align-items-center"
+      role="alert"
+    >
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <div>Error: Formulario invalido</div>
+    </div>
+
+    <div>
+      <label for="coop">Coop</label>
+      <input
+        class="form-control"
+        type="text"
+        id="coop"
+        placeholder="Nombre de la coop"
+        formControlName="coop"
+        maxlength="15"
+      />
+    </div>
+    <div>
+      <label for="menber_nr">Menber nr</label>
+      <input
+        class="form-control"
+        type="number"
+        id="menber_nr"
+        placeholder="menber_nr"
+        formControlName="menber_nr"
+      />
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div *ngIf="data.name; else edit">
+    <button mat-button (click)="editCoop()" [disabled]="!myForm.valid">
+      Edit Coop
+    </button>
+  </div>
+  <ng-template #edit>
+    <button mat-button (click)="agregarCoop()" [disabled]="!myForm.valid">
+      Add Coop
+    </button>
+  </ng-template>
+
+  <button mat-button (click)="cancel()">Cancel</button>
+</mat-dialog-actions>
