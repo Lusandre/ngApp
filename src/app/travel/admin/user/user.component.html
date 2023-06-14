@@ -1,52 +1,29 @@
-<form
-  (ngSubmit)="agregarCoop()"
-  [formGroup]="miFormulario"
-  class="form-group container"
-  autocomplete="off"
->
-  <div
-    *ngIf="validar()"
-    class="alert alert-danger d-flex align-items-center"
-    role="alert"
+<app-buscar-input
+  (OnDebounce)="sugerencias($event)"
+  placeholder="Buscar users..."
+  (OnEnter)="buscar($event)"
+></app-buscar-input>
+
+<ul *ngIf="mostrarSugerencia" class="list-group">
+  <li
+    *ngFor="let sugerencia of usersSugeridos"
+    class="list-group-item list-group-item-action"
   >
-    <i class="bi bi-exclamation-triangle-fill"></i>
-    <div>Error: Formulario invalido</div>
-  </div>
-
-  <div
-    *ngIf="mensaje"
-    class="alert alert-danger d-flex align-items-center"
-    role="alert"
+    <a class="nav-link" [routerLink]="['./', sugerencia.id]">{{
+      sugerencia.name
+    }}</a>
+  </li>
+  <li
+    class="list-group-item list-group-item-action"
+    (click)="buscarSugerido(termino)"
   >
-    <i class="bi bi-exclamation-triangle-fill"></i>
-    <div>{{ mensaje }}</div>
-  </div>
-  <div>
-    <label for="coop">User</label>
-    <input
-      class="form-control"
-      type="text"
-      id="coop"
-      placeholder="Nombre de la coop"
-      formControlName="coop"
-      maxlength="15"
-    />
-  </div>
-  <div>
-    <label for="menber_nr">Menber nr</label>
-    <input
-      class="form-control"
-      type="number"
-      id="menber_nr"
-      placeholder="menber_nr"
-      formControlName="menber_nr"
-    />
-  </div>
+    buscar "{{ termino }}"
+  </li>
+</ul>
 
-  <button class="btn btn-warning mt-2 w-100" type="submit">Add Coop</button>
-</form>
-
-<button mat-raised-button (click)="openModal()">Abrir modal</button>
+<button class="btn btn-warning mt-2 w-100" (click)="openModal()">
+  Add Users
+</button>
 
 <table class="table table-hover">
   <thead>

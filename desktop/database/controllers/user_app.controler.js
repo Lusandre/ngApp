@@ -169,6 +169,29 @@ async function userForId(id) {
     };
   }
 }
+async function buscarUsers(termino) {
+  try {
+    const pool = await mysql.createPool(dbConfig);
+
+    // Buscar los usuarios que contengan el término especificado en el nombre o en el nombre de usuario
+    const users = await pool.query(
+      "SELECT * FROM user_app WHERE name LIKE ? OR username LIKE ?",
+      [`%${termino}%`, `%${termino}%`]
+    );
+
+    // Cerrar la conexión
+    pool.end();
+
+    // Devolver los usuarios encontrados
+    return { success: true, users };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Error al intentar buscar los usuarios",
+    };
+  }
+}
 
 module.exports = {
   login,
@@ -177,4 +200,5 @@ module.exports = {
   registrarUsuario,
   getUsers,
   userForId,
+  buscarUsers,
 };

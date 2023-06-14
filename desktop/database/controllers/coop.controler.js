@@ -143,7 +143,7 @@ async function coopForId(id) {
   }
 }
 
-async function buscarCoop(nombre) {
+async function buscarCoops(nombre) {
   try {
     const pool = await mysql.createPool(dbConfig);
 
@@ -172,5 +172,5 @@ module.exports = {
   modificarCoop,
   getCoops,
   coopForId,
-  buscarCoop,
+  buscarCoops,
 };

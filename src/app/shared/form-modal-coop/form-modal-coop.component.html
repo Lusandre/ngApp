@@ -35,15 +35,23 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <div *ngIf="data.name; else edit">
-    <button mat-button (click)="editCoop()" [disabled]="!myForm.valid">
+    <button
+      class="btn btn-primary mt-2 w-40"
+      (click)="editCoop()"
+      [disabled]="!myForm.valid"
+    >
       Edit Coop
     </button>
   </div>
   <ng-template #edit>
-    <button mat-button (click)="agregarCoop()" [disabled]="!myForm.valid">
+    <button
+      class="btn btn-primary mt-2 w-40"
+      (click)="agregarCoop()"
+      [disabled]="!myForm.valid"
+    >
       Add Coop
     </button>
   </ng-template>
 
-  <button mat-button (click)="cancel()">Cancel</button>
+  <button class="btn btn-warning mt-2 w-40" (click)="cancel()">Cancel</button>
 </mat-dialog-actions>

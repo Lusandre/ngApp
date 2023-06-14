@@ -8,6 +8,7 @@ const {
   registrarUsuario,
   getUsers,
   userForId,
+  buscarUsers,
 } = require("./desktop/database/controllers/user_app.controler");
 
 const {
@@ -16,7 +17,7 @@ const {
   modificarCoop,
   getCoops,
   coopForId,
-  agregarUsuarioCoop,
+  buscarCoops,
 } = require("./desktop/database/controllers/coop.controler");
 
 const {
@@ -68,11 +69,23 @@ app.on("window-all-closed", () => {
 
 ipcMain.on("message", (event) => event.reply("reply", "pong"));
 
+//Coop
 ipcMain.handle("get-coops", async (event, arg) => {
   const coops = await getCoops();
   return coops.coops;
 });
+ipcMain.handle("buscar-coops", async (event, termino) => {
+  const coops = await buscarCoops(termino);
+  return coops.coops;
+});
 
+ipcMain.handle("update-coop", async (event, id, name, menber_nr) => {
+  const user = await modificarCoop(id, name, menber_nr);
+  console.log(user);
+  return user;
+});
+
+//User
 ipcMain.handle("get-users", async (event, arg) => {
   const users = await getUsers();
   return users;
@@ -82,10 +95,9 @@ ipcMain.handle("update-users", async (event, id, name, nivel, contraseña) => {
   console.log(user);
   return user;
 });
-ipcMain.handle("update-coop", async (event, id, name, menber_nr) => {
-  const user = await modificarCoop(id, name, menber_nr);
-  console.log(user);
-  return user;
+ipcMain.handle("buscar-users", async (event, termino) => {
+  const users = await buscarUsers(termino);
+  return users;
 });
 
 ipcMain.handle("coop-for-id", async (event, id) => {

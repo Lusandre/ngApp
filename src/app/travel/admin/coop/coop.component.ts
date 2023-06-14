@@ -1,7 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IpcService } from 'src/app/service/ipc.service';
-import { CoopResponse } from 'src/app/interfaces/coop.interface';
+import {
+  Coop,
+  CoopResponse,
+  CoopsResponse,
+} from 'src/app/interfaces/coop.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { FormModalCoopComponent } from 'src/app/shared/form-modal-coop/form-modal-coop.component';
 
@@ -11,50 +14,52 @@ import { FormModalCoopComponent } from 'src/app/shared/form-modal-coop/form-moda
   styleUrls: [],
 })
 export class CoopComponent implements OnDestroy {
-  coops: any[] = [];
-  miFormulario: FormGroup = this.fb.group({
-    coop: this.fb.control('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(15),
-    ]),
-    menber_nr: this.fb.control(1, [
-      Validators.required,
-      Validators.min(0),
-      Validators.max(90000),
-    ]),
-  });
+  coops: Coop[] = [];
+  coopsSugeridos: Coop[] = [];
   mensaje: string = '';
+  hayError: boolean = false;
+  termino: string = '';
+  mostrarSugerencia: boolean = false;
 
-  constructor(
-    private ipcService: IpcService,
-    private fb: FormBuilder,
-    private matDialog: MatDialog
-  ) {}
+  constructor(private ipcService: IpcService, private matDialog: MatDialog) {}
 
-  agregarCoop() {
-    console.log(this.miFormulario.value.coop);
-    this.ipcService
-      .invoke(
-        'registrar-coop',
-        this.miFormulario.value.coop,
-        this.miFormulario.value.menber_nr
-      )
-      .subscribe((res: CoopResponse) => {
-        if (res.success) {
-          this.miFormulario.reset();
-          this.mensaje = `La cooperativa ${res.coop.name} ha sido registrada exitosamente.`;
-          this.ipcService.invoke('get-coops').subscribe((res: any[]) => {
-            this.coops = res;
-            console.log(this.coops);
-          });
-        } else {
-          this.mensaje = `Error: ${res.message}`;
-        }
-      });
+  buscar(termino: string) {
+    this.hayError = false;
+    this.termino = termino;
+    console.log(this.termino);
+    this.ipcService.invoke('buscar-coops', this.termino).subscribe({
+      next: (resp: any[]) => {
+        console.log(resp);
+        this.coops = resp;
+      },
+      error: (err) => {
+        this.hayError = true;
+        console.log('error');
+        console.info(err);
+      },
+    });
   }
-  validar() {
-    return this.miFormulario.invalid && this.miFormulario.touched;
+
+  sugerencias(termino: string) {
+    console.log(termino);
+    this.hayError = false;
+    this.termino = termino;
+    this.mostrarSugerencia = true;
+    if (termino === '') this.mostrarSugerencia = false;
+    this.ipcService.invoke('buscar-coops', this.termino).subscribe({
+      next: (coops: any[]) => {
+        this.coopsSugeridos = coops.splice(0, 5);
+      },
+      error: (err) => {
+        this.hayError = true;
+        console.log('error');
+        console.info(err);
+      },
+    });
+  }
+
+  buscarSugerido(termino: string) {
+    this.buscar(termino);
   }
 
   openModal(): void {

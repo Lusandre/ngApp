@@ -26,6 +26,10 @@ export class UserComponent {
     ]),
   });
   mensaje: string = '';
+  hayError: boolean = false;
+  termino: string = '';
+  mostrarSugerencia: boolean = false;
+  usersSugeridos: User[] = [];
 
   constructor(
     private ipcService: IpcService,
@@ -45,7 +49,7 @@ export class UserComponent {
         if (res.success) {
           this.miFormulario.reset();
           this.mensaje = `La cooperativa ${res.coop.name} ha sido registrada exitosamente.`;
-          this.ipcService.invoke('get-coops').subscribe((res: any[]) => {
+          this.ipcService.invoke('get-users').subscribe((res: any[]) => {
             this.users = res;
             console.log(this.users);
           });
@@ -58,7 +62,46 @@ export class UserComponent {
     return this.miFormulario.invalid && this.miFormulario.touched;
   }
 
-  getCoops(): void {}
+  buscar(termino: string) {
+    this.hayError = false;
+    this.termino = termino;
+    console.log(this.termino);
+    this.ipcService.invoke('buscar-users', this.termino).subscribe({
+      next: (resp: UsersResponse) => {
+        console.log(resp);
+        this.users = resp.users!;
+      },
+      error: (err) => {
+        this.hayError = true;
+        console.log('error');
+        console.info(err);
+      },
+    });
+  }
+
+  sugerencias(termino: string) {
+    console.log(termino);
+    this.hayError = false;
+    this.termino = termino;
+    this.mostrarSugerencia = true;
+    if (termino === '') this.mostrarSugerencia = false;
+    this.ipcService.invoke('buscar-users', this.termino).subscribe({
+      next: (resp: UsersResponse) => {
+        this.usersSugeridos = resp.users!.splice(0, 5);
+      },
+      error: (err) => {
+        this.hayError = true;
+        console.log('error');
+        console.info(err);
+      },
+    });
+  }
+
+  buscarSugerido(termino: string) {
+    this.buscar(termino);
+  }
+
+  getusers(): void {}
 
   ngOnInit() {
     this.ipcService.invoke('get-users').subscribe((res: UsersResponse) => {
