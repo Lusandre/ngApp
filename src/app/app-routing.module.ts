@@ -9,8 +9,12 @@ const routes: Routes = [
       import('./travel/travel.module').then((m) => m.TravelModule),
   },
   {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
     path: '**',
-    redirectTo: 'travel',
+    redirectTo: 'auth',
   },
 ];
 

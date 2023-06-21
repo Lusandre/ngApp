@@ -99,6 +99,10 @@ ipcMain.handle("buscar-users", async (event, termino) => {
   const users = await buscarUsers(termino);
   return users;
 });
+ipcMain.handle("login", async (event, username, password) => {
+  const user = await login(username, password);
+  return user;
+});
 
 ipcMain.handle("coop-for-id", async (event, id) => {
   const coop = await coopForId(id);
