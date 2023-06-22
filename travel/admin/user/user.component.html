@@ -1,17 +1,16 @@
 <header>
-  <h1>Coops</h1>
-  <hr />
+  <h1>Users</h1>
+  <hr>
 </header>
-
 <app-buscar-input
   (OnDebounce)="sugerencias($event)"
-  placeholder="Buscar coop..."
+  placeholder="Buscar users..."
   (OnEnter)="buscar($event)"
 ></app-buscar-input>
 
 <ul *ngIf="mostrarSugerencia" class="list-group">
   <li
-    *ngFor="let sugerencia of coopsSugeridos"
+    *ngFor="let sugerencia of usersSugeridos"
     class="list-group-item list-group-item-action"
   >
     <a class="nav-link" [routerLink]="['./', sugerencia.id]">{{
@@ -27,7 +26,7 @@
 </ul>
 
 <button class="btn btn-warning mt-2 w-100" (click)="openModal()">
-  Add Coop
+  Add Users
 </button>
 
 <table class="table table-hover">
@@ -35,25 +34,16 @@
     <tr>
       <th>#</th>
       <th>name</th>
-      <th>Menber_nr</th>
-      <th>Status</th>
+      <th>Username</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let coop of coops; let i = index">
-      <td>{{ coop.id }}</td>
-      <td>{{ coop.name }}</td>
-      <td>{{ coop.menber_nr }}</td>
-      <td>
-        <span
-          [ngClass]="
-            coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'
-          "
-          >{{ coop.status == 1 ? "Active" : "Inactive" }}</span
-        >
-      </td>
-      <td><a [routerLink]="['./', coop.id]">Ver</a></td>
+    <tr *ngFor="let user of users; let i = index">
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.username }}</td>
+      <td><a [routerLink]="['./', user.id]">Ver</a></td>
     </tr>
   </tbody>
 </table>

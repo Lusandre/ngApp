@@ -1,6 +1,6 @@
 <header>
   <h1>Coops</h1>
-  <hr />
+  <hr>
 </header>
 
 <app-buscar-input
@@ -45,13 +45,8 @@
       <td>{{ coop.id }}</td>
       <td>{{ coop.name }}</td>
       <td>{{ coop.menber_nr }}</td>
-      <td>
-        <span
-          [ngClass]="
-            coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'
-          "
-          >{{ coop.status == 1 ? "Active" : "Inactive" }}</span
-        >
+      <td >
+        <span [ngClass]="coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'">{{ coop.status == 1 ? 'Active' : 'Inactive' }}</span>
       </td>
       <td><a [routerLink]="['./', coop.id]">Ver</a></td>
     </tr>

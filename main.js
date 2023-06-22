@@ -18,6 +18,7 @@ const {
   getCoops,
   coopForId,
   buscarCoops,
+  cambiarEstadoCoop,
 } = require("./desktop/database/controllers/coop.controler");
 
 const {
@@ -83,6 +84,11 @@ ipcMain.handle("update-coop", async (event, id, name, menber_nr) => {
   const user = await modificarCoop(id, name, menber_nr);
   console.log(user);
   return user;
+});
+
+ipcMain.handle("status-coop", async (event, id) => {
+  const coops = await cambiarEstadoCoop(id);
+  return coops;
 });
 
 //User

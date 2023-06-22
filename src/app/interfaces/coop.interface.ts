@@ -12,4 +12,5 @@ export interface Coop {
   id: number;
   name: string;
   menber_nr: number;
+  status: number;
 }

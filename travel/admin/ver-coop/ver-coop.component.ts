@@ -17,7 +17,7 @@ declare var window: any;
 export class VerCoopComponent {
   formModal: any;
   coop: Coop = { name: '', id: 0, menber_nr: 0, status: 0 };
-  coopEdit: Coop = { name: '', id: 0, menber_nr: 0, status: 0 };
+  coopEdit: Coop = { name: '', id: 0, menber_nr: 0 , status: 0};
   users: User[] = [];
   updateForm: FormGroup = this.fb.group({
     name: [
@@ -102,13 +102,11 @@ export class VerCoopComponent {
     console.log('first');
     this.formModal.hide();
   }
-  changeStatus() {
-    this.ipcService
-      .invoke('status-coop', this.coop.id)
-      .subscribe((res: CoopResponse) => {
-        console.log('first');
-        this.coop = res.coop!;
-        console.log(this.users);
-      });
+  changeStatus(){
+    this.ipcService.invoke('status-coop', this.coop.id).subscribe((res: CoopResponse) => {
+      console.log('first');
+      this.coop = res.coop!;
+      console.log(this.users);
+    });
   }
 }

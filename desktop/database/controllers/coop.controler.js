@@ -166,6 +166,45 @@ async function buscarCoops(nombre) {
   }
 }
 
+async function cambiarEstadoCoop(id) {
+  try {
+    const pool = await mysql.createPool(dbConfig);
+
+    // Obtener la cooperativa con el ID correspondiente
+    const coop = await pool.query("SELECT * FROM coop WHERE id = ?", [id]);
+
+    // Verificar si la cooperativa existe
+    if (coop.length === 0) {
+      return { success: false, message: "La cooperativa no existe" };
+    }
+
+    // Cambiar el estado de la cooperativa
+    const nuevoEstado = coop[0].status === 0 ? 1 : 0;
+    await pool.query("UPDATE coop SET status = ? WHERE id = ?", [
+      nuevoEstado,
+      id,
+    ]);
+
+    // Obtener los datos actualizados de la cooperativa
+    const coopActualizada = await pool.query(
+      "SELECT * FROM coop WHERE id = ?",
+      [id]
+    );
+
+    // Cerrar la conexión
+    pool.end();
+
+    // Devolver los datos de la cooperativa actualizada
+    return { success: true, coop: coopActualizada[0] };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Error al intentar cambiar el estado de la cooperativa",
+    };
+  }
+}
+
 module.exports = {
   registrarCoop,
   eliminarCoop,
@@ -173,4 +212,5 @@ module.exports = {
   getCoops,
   coopForId,
   buscarCoops,
+  cambiarEstadoCoop,
 };

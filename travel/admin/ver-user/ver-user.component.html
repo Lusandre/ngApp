@@ -7,6 +7,7 @@
 <button class="btn btn-primary" (click)="openModal()">Editar</button>
 <button class="btn btn-danger">eliminar</button>
 
+
 <!-- Botón para abrir el cuadro de diálogo -->
 
 <!-- Modal de edición -->
@@ -101,15 +102,8 @@
         <td>{{ coop.id }}</td>
         <td>{{ coop.menber_nr }}</td>
         <td>{{ coop.name }}</td>
-        <td>
-          <span
-            [ngClass]="
-              coop.status == 1
-                ? 'badge text-bg-success'
-                : 'badge text-bg-danger'
-            "
-            >{{ coop.status == 1 ? "Active" : "Inactive" }}</span
-          >
+        <td >
+          <span [ngClass]="coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'">{{ coop.status == 1 ? 'Active' : 'Inactive' }}</span>
         </td>
         <td><a [routerLink]="['../../coop', coop.id]">Ver</a></td>
       </tr>

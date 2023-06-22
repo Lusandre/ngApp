@@ -1,25 +1,12 @@
 <h1>Name</h1>
 <h1>{{ coop.name }}</h1>
 <h2>Member Nr: {{ coop.menber_nr }}</h2>
-<h2>
-  Status:
-  <span
-    [ngClass]="
-      coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'
-    "
-  >
-    {{ coop.status == 1 ? "Active" : "Inactive" }}
-  </span>
-</h2>
+<h2>Status: <span [ngClass]="coop.status == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'">
+  {{ coop.status == 1 ? 'Active' : 'Inactive' }}
+</span></h2>
 
 <button class="btn btn-primary" (click)="openModal()">editar</button>
-<button
-  [ngClass]="coop.status == 1 ? 'btn-danger' : 'btn-success'"
-  class="btn"
-  (click)="changeStatus()"
->
-  {{ coop.status == 1 ? "disable" : "enable" }}
-</button>
+<button [ngClass]="coop.status == 1 ? 'btn-danger' : 'btn-success'" class="btn" (click)="changeStatus()">{{ coop.status == 1 ? 'disable' : 'enable' }}</button>
 
 <!-- Modal de edición -->
 <div

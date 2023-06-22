@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="user"
+            ><i class="bi bi-house"></i> User
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="coop"
+            ><i class="bi bi-person"></i> Coop</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="travel"
+            ><i class="bi bi-person"></i> Travel App</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <!-- Aquí va el contenido principal -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
